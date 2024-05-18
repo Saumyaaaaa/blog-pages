@@ -16,10 +16,11 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
-          <Route path="/blogs" element={<BlogCreate />} />
+          <Route path="/blogs" element={<BlogPage />} />
+          <Route path="/blog/create" element={<BlogCreate />} />
           <Route path="blogs/:id" element={<BlogDetailPage />} />
-          <Route path="/authors" element={<AuthorPage/>} />
-          <Route path="/profile" element={<ProfilePage/>} />
+          <Route path="/authors" element={<AuthorPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
       </Routes>
     </Router>

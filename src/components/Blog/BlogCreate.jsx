@@ -1,13 +1,13 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const BlogCreate = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [authorId, setAuthorId] = useState("");
   const [coAuthorId, setCoAuthorId] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,17 +20,15 @@ const BlogCreate = () => {
         co_AuthorId: coAuthorId,
       });
 
-      if (response.status === 201) {
-        setSuccess("Blog created successfully!");
+      if (response.status === 200) {
         setTitle("");
         setContent("");
         setAuthorId("");
         setCoAuthorId("");
-        setError("");
+        toast.success("Blog created successfully!", { autoClose: 3000 });
       }
     } catch (error) {
-      setError("Failed to create blog. Please try again.");
-      setSuccess("");
+      toast.error(error.message, { autoClose: 3000 });
     }
   };
 
@@ -38,8 +36,6 @@ const BlogCreate = () => {
     <div className="container mx-auto p-8">
       <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
         <h1 className="text-3xl font-bold mb-6">Create a New Blog</h1>
-        {error && <div className="text-red-500 mb-4">{error}</div>}
-        {success && <div className="text-green-500 mb-4">{success}</div>}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label
@@ -114,6 +110,7 @@ const BlogCreate = () => {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };
