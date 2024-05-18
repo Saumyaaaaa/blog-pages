@@ -13,7 +13,7 @@ const BlogCreate = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("/api/blogs", {
+      const response = await axios.post("http://localhost:5050/api/blog", {
         title,
         content,
         authorId,
