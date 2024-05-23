@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const BlogCreate = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [authorId, setAuthorId] = useState("");
   const [coAuthorId, setCoAuthorId] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await axios.post("http://localhost:5050/api/blog", {
         title,
@@ -19,16 +20,24 @@ const BlogCreate = () => {
         authorId,
         co_AuthorId: coAuthorId,
       });
-
-      if (response.status === 200) {
+      if (response.status === 201) {
         setTitle("");
         setContent("");
         setAuthorId("");
         setCoAuthorId("");
         toast.success("Blog created successfully!", { autoClose: 3000 });
+        setTimeout(() => {
+          navigate("/"); // Redirect to the homepage after the toast notification closes
+        }, 1000);
+      } else {
+        toast.error("An error occurred while creating the blog", {
+          autoClose: 3000,
+        });
       }
     } catch (error) {
-      toast.error(error.message, { autoClose: 3000 });
+      toast.error(`Error: ${error.response?.data?.message || error.message}`, {
+        autoClose: 3000,
+      });
     }
   };
 

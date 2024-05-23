@@ -1,8 +1,12 @@
-import React from 'react'
+
+import AuthorDetail from '../components/Author/AuthorDetail'
 
 const AuthorPage = () => {
   return (
-    <div>AuthorPage</div>
+   <>
+   
+   <AuthorDetail/>
+   </>
   )
 }
 
