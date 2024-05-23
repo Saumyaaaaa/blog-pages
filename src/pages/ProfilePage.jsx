@@ -1,12 +1,10 @@
-import BlogDetailPage from "./BlogDetailPage";
+import React from 'react'
 
 const ProfilePage = () => {
   return (
-    <>
-      <div>ProfilePage</div>
-      <BlogDetailPage />
-    </>
-  );
-};
+    <div>ProfilePage</div>
+  )
+}
 
-export default ProfilePage;
+export default ProfilePage
+

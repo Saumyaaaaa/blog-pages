@@ -5,11 +5,9 @@ import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const [blogs, setBlogs] = useState([]);
-  const [authorId, setAuthorId] = useState(null);
 
   useEffect(() => {
     fetchBlogs();
-    fetchAuthorId();
   }, []);
 
   const fetchBlogs = async () => {
@@ -21,23 +19,9 @@ const HomePage = () => {
     }
   };
 
-  const fetchAuthorId = async () => {
-    try {
-      const response = await axios.get(
-        ` http://localhost:5050/api/user/${authorId}`
-      );
-      setAuthorId(response.data.authorId);
-    } catch (error) {
-      console.error("Error fetching author ID:", error);
-    }
-  };
-
   const handleLike = async (blogId) => {
     try {
-      const response = await axios.get(
-        `http://localhost:5050/api/blog/likes/${blogId}`
-      );
-      console.log(response.data);
+      await axios.get(`http://localhost:5050/api/blog/likes/${blogId}`);
       fetchBlogs();
     } catch (error) {
       console.error("Error liking blog:", error);
@@ -46,22 +30,10 @@ const HomePage = () => {
 
   const handleDislike = async (blogId) => {
     try {
-      const response = await axios.get(
-        `http://localhost:5050/api/blog/dislikes/${blogId}`
-      );
-      console.log(response.data);
+      await axios.get(`http://localhost:5050/api/blog/dislikes/${blogId}`);
       fetchBlogs();
     } catch (error) {
       console.error("Error disliking blog:", error);
-    }
-  };
-
-  const handleView = async (blogId) => {
-    try {
-      await axios.put(`http://localhost:5050/api/blog/views/${blogId}`);
-      fetchBlogs();
-    } catch (error) {
-      console.error("Error viewing blog:", error);
     }
   };
 
@@ -94,7 +66,6 @@ const HomePage = () => {
               >
                 <AiOutlineDislike className="mr-2" /> Dislike
               </button>
-            
               <Link
                 to={`/blog/edit/${blog._id}`}
                 className="bg-indigo-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-indigo-600 transition-colors"

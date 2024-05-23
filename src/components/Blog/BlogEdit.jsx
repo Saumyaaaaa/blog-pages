@@ -86,7 +86,7 @@ const BlogEdit = () => {
     e.preventDefault();
     try {
       await axios.put(`http://localhost:5050/api/blog/${id}`, blog);
-      navigate(`/blogs/${id}`); // Redirect to the blog detail page after updating
+      navigate(`/`); // Redirect to the blog detail page after updating
     } catch (error) {
       console.error(error);
     }

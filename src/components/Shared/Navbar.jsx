@@ -54,10 +54,10 @@ const Navbar = () => {
             Authors
           </Link>
           <Link
-            to="/profile"
+            to="/blog/comment"
             className="text-white hover:text-gray-300 transition duration-300"
           >
-            Profile
+            Comment 
           </Link>
           <Link
             to="/signup"

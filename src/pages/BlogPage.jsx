@@ -2,6 +2,7 @@ import { IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import { IoCreateOutline } from "react-icons/io5";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { GoCommentDiscussion } from "react-icons/go";
 
 const BlogPage = () => {
   return (
@@ -33,6 +34,23 @@ const BlogPage = () => {
                     className="text-2xl bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition-colors"
                   >
                     <IoCreateOutline />
+                  </Link>
+                </div>
+              </td>
+            </tr>
+            <tr className="hover:bg-gray-50 transition-colors duration-150">
+              <td className="px-6 py-4 border-b border-gray-300 text-sm text-gray-700">
+                Comment on a Blog
+              </td>
+              <td className="px-6 py-4 border-b border-gray-300 text-sm">
+                <div className="flex justify-center">
+                  <Link
+                    to="/blog/comment/create"
+                    className="bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 transition-colors"
+                  >
+                    <IconButton aria-label="comment" size="large">
+                      <GoCommentDiscussion fontSize="inherit" className="text-white" />
+                    </IconButton>
                   </Link>
                 </div>
               </td>
