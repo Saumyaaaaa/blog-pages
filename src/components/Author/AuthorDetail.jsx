@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthorDelete from "./AuthorDelete"; // Import the AuthorDelete component
+import Avatar from "@mui/material/Avatar"; // Import Avatar component from Material-UI
+import Stack from "@mui/material/Stack"; // Import Stack component from Material-UI
 
 const AuthorDetail = () => {
   const [authors, setAuthors] = useState([]);
@@ -39,7 +41,13 @@ const AuthorDetail = () => {
             className="border rounded-lg shadow-md p-6 bg-white flex flex-col justify-between"
           >
             <div>
-              <h2 className="text-2xl font-bold mb-2">{author.fullName}</h2>
+              <Stack direction="row" spacing={2} alignItems="center">
+                <Avatar
+                  alt={author.fullName}
+                  src="/public/profile.jpg" 
+                />
+                <h2 className="text-2xl font-bold mb-2">{author.fullName}</h2>
+              </Stack>
               <p className="text-gray-700 mb-4">{author.email}</p>
             </div>
             <div className="flex justify-between items-center mt-4">
@@ -51,7 +59,6 @@ const AuthorDetail = () => {
               </Link>
               <Link
                 to={`/author/edit/${author._id}`}
-                
                 className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition-colors"
               >
                 Edit
