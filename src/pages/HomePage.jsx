@@ -46,17 +46,17 @@ const HomePage = () => {
         {blogs.map((blog) => (
           <div
             key={blog._id}
-            className="border rounded-lg shadow-md p-6 bg-white flex flex-col justify-between"
+            className="border rounded-lg shadow-md p-6 bg-white flex flex-col justify-between transition duration-300 hover:scale-105"
           >
             <div>
               <h2 className="text-2xl font-bold mb-2">{blog.title}</h2>
               <p className="text-gray-700 mb-4">{blog.content}</p>
               <p className="text-gray-500 mb-4">Author: {blog.author}</p>
-                <img
-      src="./public/pic.png" 
-      alt="blog title"    
-      className="w-full rounded-md mb-4"
-    />
+              <img
+                src="/public/pic.png"
+                alt="blog title"
+                className="w-full rounded-md mb-4"
+              />
             </div>
             <div className="flex justify-between items-center mt-4">
               <button
