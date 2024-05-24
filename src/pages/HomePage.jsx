@@ -1,28 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import axios from "axios";
+import { useQuery } from "react-query";
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
 const HomePage = () => {
-  const [blogs, setBlogs] = useState([]);
+  const {
+    data: blogs,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery("blogs", fetchBlogs);
 
-  useEffect(() => {
-    fetchBlogs();
-  }, []);
-
-  const fetchBlogs = async () => {
-    try {
-      const response = await axios.get("http://localhost:5050/api/blog");
-      setBlogs(response.data);
-    } catch (error) {
-      console.error("Error fetching blogs:", error);
-    }
-  };
+  async function fetchBlogs() {
+    const response = await axios.get("http://localhost:5050/api/blog");
+    return response.data;
+  }
 
   const handleLike = async (blogId) => {
     try {
       await axios.get(`http://localhost:5050/api/blog/likes/${blogId}`);
-      fetchBlogs();
+      refetch();
     } catch (error) {
       console.error("Error liking blog:", error);
     }
@@ -31,11 +29,14 @@ const HomePage = () => {
   const handleDislike = async (blogId) => {
     try {
       await axios.get(`http://localhost:5050/api/blog/dislikes/${blogId}`);
-      fetchBlogs();
+      refetch();
     } catch (error) {
       console.error("Error disliking blog:", error);
     }
   };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error fetching data</div>;
 
   return (
     <div className="container mx-auto px-4">
@@ -53,7 +54,7 @@ const HomePage = () => {
               <p className="text-gray-700 mb-4">{blog.content}</p>
               <p className="text-gray-500 mb-4">Author: {blog.author}</p>
               <img
-                src="/public/pic.png"
+                src="pic.png"
                 alt="blog title"
                 className="w-full rounded-md mb-4"
               />
