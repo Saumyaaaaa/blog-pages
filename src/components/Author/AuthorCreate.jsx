@@ -1,29 +1,45 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
+import { useMutation } from "react-query";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const AuthorCreate = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:5050/api/author", {
-        fullName,
-        email,
-      });
-      if (response.status === 201) {
-        toast.success("Author created successfully!", { autoClose: 3000 });
+  // Define the mutation function
+  const createAuthorMutation = useMutation(
+    async (newAuthor) => {
+      const response = await axios.post(
+        "http://localhost:5050/api/author",
+        newAuthor
+      );
+      return response.data;
+    },
+    {
+      onSuccess: () => {
+        toast.success("Author created successfully!", { autoClose: 5000 });
         setFullName("");
         setEmail("");
-      }
-    } catch (error) {
-      toast.error("Failed to create author: " + error.message, {
-        autoClose: 3000,
-      });
+        // Navigate to /authors after 5 seconds
+        setTimeout(() => {
+          navigate("/authors");
+        }, 1000);
+      },
+      onError: (error) => {
+        toast.error("Failed to create author: " + error.message, {
+          autoClose: 3000,
+        });
+      },
     }
+  );
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createAuthorMutation.mutate({ fullName, email });
   };
 
   return (

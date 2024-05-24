@@ -1,17 +1,28 @@
 import React from "react";
 import axios from "axios";
+import { useMutation } from "react-query";
 
 const AuthorDelete = ({ authorId, onDelete }) => {
-  const handleDelete = async () => {
-    try {
+  // Define the mutation function
+  const deleteAuthorMutation = useMutation(
+    async () => {
       // Send a DELETE request to the backend API to delete the author
       await axios.delete(`http://localhost:5050/api/author/${authorId}`);
-      
-      onDelete(authorId);
-    } catch (error) {
-  
-      console.error("Error deleting author:", error);
+    },
+    {
+      onSuccess: () => {
+        // Call the onDelete callback to update the UI after successful deletion
+        onDelete(authorId);
+      },
+      onError: (error) => {
+        console.error("Error deleting author:", error);
+      },
     }
+  );
+
+  const handleDelete = () => {
+    // Execute the deleteAuthorMutation
+    deleteAuthorMutation.mutate();
   };
 
   return (
