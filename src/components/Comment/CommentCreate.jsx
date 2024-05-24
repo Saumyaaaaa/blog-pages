@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useMutation } from "react-query";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +16,29 @@ const CommentCreate = () => {
   const { email, name, comment, blogId } = formData;
   const navigate = useNavigate();
 
+  // Define the mutation function
+  const createCommentMutation = useMutation(
+    async (newComment) => {
+      await axios.post("http://localhost:5050/api/comment", newComment);
+    },
+    {
+      onSuccess: () => {
+        toast.success("Comment created successfully!", { autoClose: 3000 });
+        setTimeout(() => {
+          navigate("/"); // Redirect to the homepage after creating the comment
+        }, 1000);
+      },
+      onError: (error) => {
+        toast.error(
+          `Error: ${error.response?.data?.message || error.message}`,
+          {
+            autoClose: 3000,
+          }
+        );
+      },
+    }
+  );
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -23,19 +47,9 @@ const CommentCreate = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      await axios.post("http://localhost:5050/api/comment", formData);
-      toast.success("Comment created successfully!", { autoClose: 3000 });
-      setTimeout(() => {
-        navigate("/"); // Redirect to the homepage after creating the comment
-      }, 1000);
-    } catch (error) {
-      toast.error(`Error: ${error.response?.data?.message || error.message}`, {
-        autoClose: 3000,
-      });
-    }
+    createCommentMutation.mutate(formData);
   };
 
   return (

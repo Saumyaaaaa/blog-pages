@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom"; // Import Link from React Router
+import { Link, useNavigate } from "react-router-dom"; // Import Link and useNavigate from React Router
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -9,6 +9,7 @@ import { Button, CardActionArea, CardActions, CardMedia } from "@mui/material";
 
 const CommentDetail = () => {
   const [comments, setComments] = useState([]);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -29,6 +30,7 @@ const CommentDetail = () => {
       setComments((prevComments) =>
         prevComments.filter((comment) => comment._id !== commentId)
       );
+      navigate("/blog/comment/detail"); // Navigate to /blog/comment/detail after deletion
     } catch (error) {
       console.error("Error deleting comment:", error);
     }
@@ -60,7 +62,7 @@ const CommentDetail = () => {
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    Author Name: {comment.name}
+                    Commenter : {comment.name}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     Email: {comment.email}
